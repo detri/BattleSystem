@@ -41,11 +41,6 @@ namespace BattleSystem
             }
 
             CheckBattleProgress();
-
-            if (BattleInProgress)
-            {
-                SwapAttackerAndDefender();
-            }
         }
 
         private void CheckBattleProgress()
@@ -54,6 +49,10 @@ namespace BattleSystem
             {
                 BattleInProgress = false;
                 Winner = _currentAttacker;
+            }
+            else
+            {
+                SwapAttackerAndDefender();
             }
         }
 
