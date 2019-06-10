@@ -11,15 +11,17 @@ namespace BattleSystem
         public int MaxHP { get; }
         public int Speed { get; }
         public int Level { get; }
-        public int BaseDamage, MaxDamage;
         public string Name;
 
-        public LivingBeing(string Name, int Level, int MaxHP, int Speed)
+        private int _baseDamage;
+        private int _maxDamage;
+
+        public LivingBeing(string name, int level, int maxHP, int speed)
         {
-            this.Name = Name;
-            this.MaxHP = MaxHP;
-            this.Speed = Speed;
-            this.Level = Level;
+            Name = name;
+            MaxHP = maxHP;
+            Speed = speed;
+            Level = level;
 
             CalculateAndSetBaseDamage();
 
@@ -28,20 +30,19 @@ namespace BattleSystem
 
         private void CalculateAndSetBaseDamage()
         {
-            float Multiplier = Level * 1.5f;
-            BaseDamage = (int)Math.Round(GLOBAL_BASE_DAMAGE * Multiplier);
-            MaxDamage = (int)Math.Round(BaseDamage * Multiplier);
+            float multiplier = Level * 1.5f;
+            _baseDamage = (int)Math.Round(GLOBAL_BASE_DAMAGE * multiplier);
+            _maxDamage = (int)Math.Round(_baseDamage * multiplier);
         }
 
         public int CalculateAttackDamage()
         {
-            return RNG.Next(BaseDamage, MaxDamage);
+            return RNG.Next(_baseDamage, _maxDamage);
         }
 
-        public string AttackMessage(int Damage)
+        public string AttackMessage(int damage)
         {
-            return Name + " attacks for " + Damage.ToString()
-                + " damage!";
+            return $"{Name} attacks for {damage.ToString()} damage!";
         }
     }
 }
