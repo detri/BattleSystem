@@ -8,7 +8,23 @@ namespace BattleSystem
 
         private readonly Random RNG = new Random();
 
-        public int HP { get; set; }
+        private int _HP;
+
+        public int HP
+        {
+            get => _HP;
+            set
+            {
+                if (value < 1)
+                {
+                    _HP = 0;
+                }
+                else
+                {
+                    _HP = value;
+                }
+            }
+        }
         public int MaxHP { get; }
         public int Speed { get; }
         public int Level { get; }
@@ -35,7 +51,7 @@ namespace BattleSystem
             _baseDamage = (int)Math.Round(GLOBAL_BASE_DAMAGE * multiplier);
             _maxDamage = (int)Math.Round(_baseDamage * multiplier);
         }
-
+        
         public int CalculateAttackDamage()
         {
             return RNG.Next(_baseDamage, _maxDamage);

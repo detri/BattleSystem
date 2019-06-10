@@ -33,29 +33,35 @@ namespace BattleSystem
 
         public void NextTurn()
         {
-            bool continueBattle = CheckBattleProgress();
-
-            if (continueBattle)
+            if (BattleInProgress)
             {
                 int attackDamage = _currentAttacker.CalculateAttackDamage();
                 _currentDefender.HP -= attackDamage;
                 Console.WriteLine(_currentAttacker.AttackMessage(attackDamage));
-                LivingBeing _previousAttacker = _currentAttacker;
-                _currentAttacker = _currentDefender;
-                _currentDefender = _previousAttacker;
+            }
+
+            CheckBattleProgress();
+
+            if (BattleInProgress)
+            {
+                SwapAttackerAndDefender();
             }
         }
 
-        private bool CheckBattleProgress()
+        private void CheckBattleProgress()
         {
             if (_currentDefender.HP < 1)
             {
                 BattleInProgress = false;
                 Winner = _currentAttacker;
-                return false;
             }
+        }
 
-            return true;
+        private void SwapAttackerAndDefender()
+        {
+            LivingBeing _previousAttacker = _currentAttacker;
+            _currentAttacker = _currentDefender;
+            _currentDefender = _previousAttacker;
         }
     }
 }
